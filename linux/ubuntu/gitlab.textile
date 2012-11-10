@@ -20,6 +20,8 @@ h3. Vorbereitungen
 ** @sudo apt-get install python-pip@
 * ICU installieren:
 ** @apt-get install libicu-dev@
+* YAML installieren:
+** @apt-get install libyaml-dev@
 * REDIS installieren:
 ** @apt-get install redis-server@
 
@@ -165,6 +167,23 @@ h2. Probleme
 h3. YAML
 
 bc. 
+$ gem list
 /usr/local/lib/ruby/1.9.1/yaml.rb:56:in `<top (required)>':
 It seems your ruby installation is missing psych (for YAML output).
 To eliminate this warning, please install libyaml and reinstall your ruby.
+
+Lösungsversuch mit libyaml-dev:
+
+* sudo apt-get install libyaml-dev
+* cd ~/ruby*
+* ./configure
+* make
+* sudo make install
+* gem list
+
+Die Fehlermeldung bzgl. YAML erscheint nicht mehr.
+
+* cd /home/gitlab/gitlab
+* sudo -u gitlab bundle exec rails s -e production
+
+... funktioniert.
