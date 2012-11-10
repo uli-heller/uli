@@ -1,0 +1,178 @@
+h1. Octopress
+
+h2. Installation
+
+h3. Vorbereitungen
+
+* Sicherstellen: Zugang zum Internet besteht
+* Größe der /usr-Partition auf 800MB setzen:
+** @sudo lvextend -L+400M /dev/systemvg/usrlv@
+** @sudo resize2fs /dev/systemvg/usrlv@
+* Größe der /tmp-Partition auf 300MB setzen:
+** @sudo lvextend -L+200M /dev/systemvg/tmplv@
+** @sudo resize2fs /dev/systemvg/tmplv@
+* Größe der /home-Partition auf 250MB setzen:
+** @sudo lvextend -L+200M /dev/systemvg/homelv@
+** @sudo resize2fs /dev/systemvg/homelv@
+* GCC installieren:
+** @sudo apt-get install gcc build-essential@
+* Libs installieren:
+** @sudo apt-get install libyaml-dev libz-dev libssl-dev@
+
+h3. Basispakete
+
+h4.Git
+
+bc. 
+$ sudo apt-get install -y git
+$ sudo apt-get clean
+
+Für GIT wird die Version 1.8.0-0dp3~precise01 vom DPREPO angezogen.
+
+h4. Ruby mittels RVM
+
+bc. 
+curl -L https://get.rvm.io | bash -s stable --ruby
+. ./.rvm/scripts/rvm
+rvm install 1.9.3 # Zeigt eine Fehlermeldung, weil 1.9.3 bereits installiert ist
+rvm use 1.9.3
+rvm rubygems latest
+ruby --version    # ruby 1.9.3p327 (2012-11-10 revision 37606) [i686-linux]
+
+h3. Octopress
+
+bc. 
+git clone git://github.com/imathis/octopress.git octopress
+cd octopress
+gem install bundler
+bundle install
+rake install
+
+h2. Anpassungen
+
+h3. Umleitung auf meinen Octopress-Fork
+
+bc. 
+git remote add uli-github git@github.com:uli-heller/octopress.git
+
+... nun können Änderungen mit @git push -u uli-github master@ dorthin gesichert werden.
+
+h3. Textile statt Markdown
+
+Rakefile
+
+bc. 
+uli@ubuntu1204:~/octopress$ git diff
+diff --git a/Rakefile b/Rakefile
+index 3addaaf..d1a9a66 100644
+--- a/Rakefile
++++ b/Rakefile
+@@ -22,8 +22,8 @@ deploy_dir      = "_deploy"   # deploy directory (for Github p
+ stash_dir       = "_stash"    # directory to stash posts for speedy generation
+ posts_dir       = "_posts"    # directory for blog files
+ themes_dir      = ".themes"   # directory for blog files
+-new_post_ext    = "markdown"  # default new post file extension when using the 
+-new_page_ext    = "markdown"  # default new page file extension when using the 
++new_post_ext    = "textile"   # default new post file extension when using the 
++new_page_ext    = "textile"   # default new page file extension when using the 
+ server_port     = "4000"      # port for preview server eg. localhost:4000
+
+h3. Autor und Titel
+
+bc. 
+uli@ubuntu1204:~/octopress$ git diff _config.yml
+diff --git a/_config.yml b/_config.yml
+index fb29684..741d469 100644
+--- a/_config.yml
++++ b/_config.yml
+@@ -2,10 +2,10 @@
+ #      Main Configs       #
+ # ----------------------- #
+ 
+-url: http://yoursite.com
+-title: My Octopress Blog
+-subtitle: A blogging framework for hackers.
+-author: Your Name
++url: http://uli-heller.github.com
++title: Was ich so treibe...
++subtitle: Linux, Java und Groovy
++author: Uli Heller
+ simple_search: http://google.com/search
+ description:
+
+h2. Ein erster Blog-Eintrag
+
+bc. 
+uli@ubuntu1204:~/octopress$ rake new_post["Octopress"]
+mkdir -p source/_posts
+Creating new post: source/_posts/2012-11-10-octopress.textile
+
+bc. 
+rake generate
+rake preview
+
+h2. Probleme
+
+h3. Ruby mittels RBENV
+
+Funktioniert nicht, wir verwenden stattdessen RVM!
+
+h4. RBENV
+
+bc. 
+cd
+git clone git://github.com/sstephenson/rbenv.git .rbenv
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
+echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
+git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+source ~/.bash_profile
+
+h4. RUBY
+
+bc. 
+rbenv install 1.9.3-p0
+rbenv rehash
+
+Danach sollte dann @ruby --version@ irgendwas mit 1.9.3 anzeigen, funktioniert aber nicht!
+
+h3. YAML und zlib
+
+bc. 
+uli@ubuntu1204:~/octopress$ gem install bundler
+/home/uli/.rvm/rubies/ruby-1.9.3-p327/lib/ruby/1.9.1/yaml.rb:56:in `<top (required)>':
+It seems your ruby installation is missing psych (for YAML output).
+To eliminate this warning, please install libyaml and reinstall your ruby.
+ERROR:  Loading command: install (LoadError)
+    cannot load such file -- zlib
+ERROR:  While executing gem ... (NameError)
+    uninitialized constant Gem::Commands::InstallCommand
+
+Lösungsversuch mit libyaml-dev und libz-dev:
+
+* sudo apt-get install libyaml-dev libz-dev
+* rvm reinstall 1.9.3
+* cd octopress
+* gem install bundler
+
+... funktioniert.
+
+h3. OpenSSL
+
+bc. 
+uli@ubuntu1204:~/octopress$ rake generate
+## Generating Site with Jekyll
+directory source/stylesheets/ 
+   create source/stylesheets/screen.css 
+/home/uli/.rvm/gems/ruby-1.9.3-p327/gems/maruku-0.6.0/lib/maruku/input/parse_doc.rb:22:in `<top (required)>': iconv will be deprecated in the future, use String#encode instead.
+Configuration from /home/uli/octopress/_config.yml
+/home/uli/.rvm/rubies/ruby-1.9.3-p327/lib/ruby/1.9.1/net/https.rb:22:in `require': cannot load such file -- openssl (LoadError)
+	from /home/uli/.rvm/rubies/ruby-1.9.3-p327/lib/ruby/1.9.1/net/https.rb:22:in `<top (required)>'
+
+Lösungsversuch mit libssl-dev:
+
+* sudo apt-get install libssl-dev
+* rvm reinstall 1.9.3
+* cd octopress
+* rake generate
+
+... funktioniert.
