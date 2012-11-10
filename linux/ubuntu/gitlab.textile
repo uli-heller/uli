@@ -187,3 +187,15 @@ Die Fehlermeldung bzgl. YAML erscheint nicht mehr.
 * sudo -u gitlab bundle exec rails s -e production
 
 ... funktioniert.
+
+h3. Ruby-1.9.3-p327
+
+bc. 
+$ wget http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p327.tar.gz
+$ tar xfvz ruby-1.9.3-p327.tar.gz
+$ cd ruby-1.9.3-p327
+$ ./configure
+$ make
+$ sudo make install
+
+... funktioniert.
