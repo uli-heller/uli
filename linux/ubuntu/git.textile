@@ -1,0 +1,32 @@
+---
+layout: post
+author: Uli Heller
+published: false
+title: "Git"
+date: 2012-11-11 07:26
+comments: true
+categories: 
+- Linux
+- Windows
+- Ubuntu
+- Precise
+- Git
+---
+
+h1. Git
+
+h2. Einstellungen nach der Installation
+
+h3. Benutzerkennung
+
+bc. $ git config --global user.name "Uli Heller"
+$ git config --global user.email uli.heller@github.com
+
+h3. Editor
+
+bc. $ git config --global core.editor jmacs
+
+h3. Rebase statt Merge
+
+bc. $ git config --global branch.autosetuprebase always
+
