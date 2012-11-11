@@ -130,11 +130,17 @@ rake preview
 
 h2. Probleme
 
-h3. Ruby mittels RBENV
+h3. Offene Probleme
+
+Zur Zeit sind keine offenen Probleme bekannt.
+
+h3. Erledigte Probleme
+
+h4. Ruby mittels RBENV
 
 Funktioniert nicht, wir verwenden stattdessen RVM!
 
-h4. RBENV
+h5. RBENV
 
 bc. cd
 git clone git://github.com/sstephenson/rbenv.git .rbenv
@@ -143,14 +149,14 @@ echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
 git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 source ~/.bash_profile
 
-h4. RUBY
+h5. RUBY
 
 bc. rbenv install 1.9.3-p0
 rbenv rehash
 
 Danach sollte dann @ruby --version@ irgendwas mit 1.9.3 anzeigen, funktioniert aber nicht!
 
-h3. YAML und zlib
+h4. YAML und zlib
 
 bc. uli@ubuntu1204:~/octopress$ gem install bundler
 /home/uli/.rvm/rubies/ruby-1.9.3-p327/lib/ruby/1.9.1/yaml.rb:56:in `<top (required)>':
@@ -163,14 +169,14 @@ ERROR:  While executing gem ... (NameError)
 
 Lösungsversuch mit libyaml-dev und libz-dev:
 
-* sudo apt-get install libyaml-dev libz-dev
-* rvm reinstall 1.9.3
-* cd octopress
-* gem install bundler
+* @sudo apt-get install libyaml-dev libz-dev@
+* @rvm reinstall 1.9.3@
+* @cd octopress@
+* @gem install bundler@
 
 ... funktioniert.
 
-h3. OpenSSL
+h4. OpenSSL
 
 bc. uli@ubuntu1204:~/octopress$ rake generate
 ## Generating Site with Jekyll
@@ -183,9 +189,9 @@ Configuration from /home/uli/octopress/_config.yml
 
 Lösungsversuch mit libssl-dev:
 
-* sudo apt-get install libssl-dev
-* rvm reinstall 1.9.3
-* cd octopress
-* rake generate
+* @sudo apt-get install libssl-dev@
+* @rvm reinstall 1.9.3@
+* @cd octopress@
+* @rake generate@
 
 ... funktioniert.
