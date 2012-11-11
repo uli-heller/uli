@@ -56,8 +56,18 @@ ruby --version    # ruby 1.9.3p327 (2012-11-10 revision 37606) [i686-linux]
 
 h3. Octopress
 
+h4. Erstinstallation
+
 bc. 
 git clone git://github.com/imathis/octopress.git octopress
+cd octopress
+gem install bundler
+bundle install
+rake install
+
+h4. Folgeinstallation
+
+bc. git clone git@github.com:uli-heller/octopress.git octopress
 cd octopress
 gem install bundler
 bundle install
