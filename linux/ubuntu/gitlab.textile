@@ -53,17 +53,12 @@ Die in der Online-Anleitung vorgeschlagene Version 9.2 ist für Ubuntu-12.04 nic
 
 bc. $ sudo apt-get install -y postgresql
 $ sudo apt-get install -y postgresql-server-dev-9.1
-$ sudo -u postgres psql -d template1
-template1=# CREATE USER gitlab WITH PASSWORD 'gitlab';
-template1=# CREATE DATABASE gitlabhq_production;
-template1=# GRANT ALL PRIVILEGES ON DATABASE gitlabhq_production to gitlab;
-template1=# \q
+$ sudo -u postgres psql -d template1 -c "CREATE USER gitlab WITH PASSWORD 'gitlab';"
+$ sudo -u postgres psql -d template1 -c "CREATE DATABASE gitlabhq_production;"
+$ sudo -u postgres psql -d template1 -c "GRANT ALL PRIVILEGES ON DATABASE gitlabhq_production to gitlab;"
 $ sudo -s
-# su - gitlab
-$ psql -d gitlabhq_production -U gitlab
+$ sudo -u gitlab psql -d gitlabhq_production -U gitlab
 gitlabhq_production=> \q
-$ exit
-# exit
 
 h3. Ruby
 
@@ -165,9 +160,46 @@ Browser: http://192.168.56.84:3000
 
 Funktioniert!
 
+h2. Tests
+
+h3. Benutzer
+
+* admin - admin@admin.de - admin1111 ... Administrator
+* uli - uli@uli.de - uli1111 ... "normaler" Benutzer
+* fat - fat@fat.de - fat1111 ... Benutzer aus der FAT-Gruppe
+* fat2 - fat2@fat.de - fat21111 ... Zweiter Benutzer aus der FAT-Gruppe
+* po - po@po.de - po1111 ... ProductOwner
+
+
+h3. Zugriffsrechte
+
+
 h2. Probleme
 
-h3. YAML
+h3. Offene Probleme
+
+h4. Falsche Links
+
+Anzeige nach Anlage eines Projektes, bspw. bei "Existing Repo?":
+
+bc. cd existing_git_repo
+git remote add origin git@localhost:puppet.git
+git push -u origin master
+
+h4. Push/Pull via HTTP scheint nicht funktionieren
+
+bc. uli@uli-hp:/tmp/puppet$ git pull
+Username for 'http://192.168.56.84:3000': fat
+Password for 'http://fat@192.168.56.84:3000': 
+fatal: Authentication failed
+
+h4. Dokumentenformat TEXTILE wird nicht richtig formatiert
+
+TBD
+
+h3. Erledigte Probleme
+
+h4. YAML
 
 bc. $ gem list
 /usr/local/lib/ruby/1.9.1/yaml.rb:56:in `<top (required)>':
@@ -190,7 +222,7 @@ Die Fehlermeldung bzgl. YAML erscheint nicht mehr.
 
 ... funktioniert.
 
-h3. Ruby-1.9.3-p327
+h4. Ruby-1.9.3-p327
 
 bc. $ wget http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p327.tar.gz
 $ tar xfvz ruby-1.9.3-p327.tar.gz
@@ -199,4 +231,65 @@ $ ./configure
 $ make
 $ sudo make install
 
-... funktioniert.
+... funktioniert. GitLab funktioniert ebenfalls.
+
+h4. Git-Warnung bzgl. 'push-default'
+
+bc.. $ cd /home/gitlab/gitlab/
+$ sudo -u gitlab bundle exec rake gitlab:app:setup RAILS_ENV=production
+...
+ nothing to commit, working directory clean
+warning: 'push.default' ist nicht gesetzt; der implizit gesetzte Wert
+wird in Git 2.0 von 'matching' nach 'simple' geändert. Um diese Meldung zu
+unterdrücken und das aktuelle Verhalten nach Änderung des Standardwertes
+beizubehalten, benutze:
+  git config --global push.default matching
+
+Um diese Meldung zu unterdrücken und das neue Verhalten jetzt zu übernehmen,
+benutze:
+
+  git config --global push.default simple
+
+Führe 'git help config' aus und suche nach 'push.default' für weitere Informationen.
+(Der Modus 'simple' wurde in Git 1.7.11 eingeführt. Benutze den ähnlichen Modus 'current' anstatt 'simple', falls du gelegentlich ältere Versionen von Git benutzt.)
+
+Everything up-to-date
+
+p. Korrekturversuch mit:
+
+* @sudo -u gitlab -H git config --global push.default simple@
+
+Nachtest - OK, Fehlermeldung erscheint nicht mehr.
+
+h4. Probleme beim Start von PostgreSQL
+
+bc. $ sudo service postgresql start
+ * Starting PostgreSQL 9.1 database server
+ * The PostgreSQL server failed to start. Please check the log output:
+                                                                         [fail]
+
+Sichtung der Datei /var/log/postgresql/postgresql-9.1-main.log: Keinerlei Einträge.
+
+Im Nachhinein stellt sich heraus, dass die Partition /var vollgelaufen war. Also: Am besten zunächst mit @df -h@ kontrollieren, ob noch genügend Plattenplatz frei ist! Wahrscheinlich reicht beim Vollaufen ein einfaches Vergrößern der vollen Parition aus.
+
+Hier der Ablauf, mit dem ich's ursprl. wieder an's Fliegen gebracht habe.
+
+Deinstallieren mit:
+
+* @dpkg --get-selections "*postg*" |cut -f1|sudo xargs apt-get purge -y@
+
+Danach neu installieren mit:
+
+* @sudo apt-get install -y postgresql@
+
+Die Installation bricht ab mit einem Fehler: "No space left on device". Also: Partition /var" um 200MB vergrößern und neu testen, damit geht's dann.
+
+* @sudo apt-get install -y postgresql-server-dev-9.1@
+
+Nun die Datenbank anlegen mit:
+
+bc. $ sudo -u postgres psql -d template1 -c "CREATE USER gitlab WITH PASSWORD 'gitlab';"
+$ sudo -u postgres psql -d template1 -c "CREATE DATABASE gitlabhq_production;"
+$ sudo -u postgres psql -d template1 -c "GRANT ALL PRIVILEGES ON DATABASE gitlabhq_production to gitlab;"
+$ cd /home/gitlab/gitlab
+$ sudo -u gitlab bundle exec rake gitlab:app:setup RAILS_ENV=production
