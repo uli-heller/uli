@@ -30,6 +30,85 @@ h3. Rebase statt Merge
 
 bc. $ git config --global branch.autosetuprebase always
 
+h2. Anwendungsfälle
+
+h3. Programmablage
+
+Es soll ein Git-Repository eingerichtet werden mit folgenden Bestandteilen:
+
+* Konfigurationsdateien für diverse Server (bspw. in Zusammenhang mit dem Tool Puppet). Die Konfigurationsdateien werden vom Support-Team erstellt und modifiziert.
+* Programmdateien mit kundenspezifischen Anwendungen (idR. WAR-Dateien). Die Programmdateien werden vom jeweiligen Programmeigner bereitgestellt
+
+Die Programmeigner sollen die Konfigurationsdateien nicht verändern!
+
+h4. Einrichten des Git-Repository
+
+bc. $ git init puppet
+$ cd puppet
+$ git checkout -b master
+  # Verzeichnisstruktur anlegen
+$ mkdir apache-tomcat
+$ cp .../server.xml apache-tomcat/server.xml
+...
+$ mkdir apache-httpd
+$ cp .../httpd.conf apache-httpd/httpd.conf
+...
+$ git add apache-tomcat apache-httpd
+$ git commit -m "Diverse neue Konfigurationsdateien" .
+$ mkdir software
+$ echo "Ablageort für Programmdateien" >software/README.txt
+$ git add software
+$ git commit -m "Ablageort für Programmdateien" .
+
+h4. Stabiler Zweig
+
+bc. $ git checkout -b stable
+
+h4. Zweig für neue Programmdateien
+
+bc. $ git checkout --orphan software
+$ git rm -rf *
+$ mkdir software
+$ echo "Ablageort für Programmdateien" >software/README.txt
+$ git add software
+$ git commit -m "Ablageort für Programmdateien" .
+
+h4. Zugriffsrechte vergeben
+
+* Zweig für neue Programmdateien "software": Öffentlicher Zweig
+* Alle anderen Zweige: Gesicherte Zweige (protected branches)
+
+h4. Arbeit des Support-Teams
+
+UNAUSGEGOREN!
+
+* Das Support-Team arbeitet idR. auf dem Zweig "master"
+* Dorthin werden von jedem Team-Mitglied seine Änderungen eingecheckt
+* Der Zweig "master" wird auf diverse Entwicklungssysteme ausgerollt und damit auf Richtigkeit überprüft
+
+h4. Arbeit des Support-Verantwortlichen
+
+h5. Übernehmen der Änderungen des Support-Teams
+
+UNAUSGEGOREN!
+
+* Der Support-Verantwortliche überführt die Änderungen vom Zweig "master" in den Zweig "stable"
+* Die Änderungen werden durch "Rebase" überführt, *nicht* durch "Merge"
+
+h5. Übernehmen der Programmdateien der Programmeigner
+
+bc. $ git checkout master
+$ git checkout software "software/*.war"
+  # Sichten der Änderungen
+$ git status
+$ git commit -m "...beschreibung..." software/*.war
+
+Wenn später mal kontrolliert werden soll, wie die Historie bestimmter Programmdateien aussieht, so kann dies so erfolgen:
+
+bc. $ git log --all software/uli-1.0.war
+  # oder auch
+$ gitk --all  software/uli-1.0.war
+
 h2. Links
 
 * http://randyfay.com/content/avoiding-git-disasters-gory-story
