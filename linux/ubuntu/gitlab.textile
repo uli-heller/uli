@@ -1,3 +1,18 @@
+---
+layout: post
+author: Uli Heller
+published: false
+title: "GitLab"
+date: 2012-11-09 08:31
+comments: true
+categories: 
+- Linux
+- Windows
+- Ubuntu
+- Precise
+- Git
+---
+
 h1. GitLab
 
 h2. Installation
@@ -27,8 +42,7 @@ h3. Vorbereitungen
 
 h3. Basispakete
 
-bc. 
-$ sudo apt-get install -y wget curl gcc checkinstall libxml2-dev libxslt-dev libcurl4-openssl-dev libreadline6-dev libc6-dev libssl-dev libmysql++-dev make build-essential zlib1g-dev libicu-dev redis-server openssh-server git-core python-dev python-pip libyaml-dev postfix libpq-dev
+bc. $ sudo apt-get install -y wget curl gcc checkinstall libxml2-dev libxslt-dev libcurl4-openssl-dev libreadline6-dev libc6-dev libssl-dev libmysql++-dev make build-essential zlib1g-dev libicu-dev redis-server openssh-server git-core python-dev python-pip libyaml-dev postfix libpq-dev
 $ sudo apt-get clean
 
 Bei "postfix" habe ich "keine Konfiguration" angewählt. Für GIT wird die Version 1.8.0-0dp3~precise01 vom DPREPO angezogen.
@@ -37,8 +51,7 @@ h3. PostgreSQL
 
 Die in der Online-Anleitung vorgeschlagene Version 9.2 ist für Ubuntu-12.04 nicht verfügbar!
 
-bc. 
-$ sudo apt-get install -y postgresql
+bc. $ sudo apt-get install -y postgresql
 $ sudo apt-get install -y postgresql-server-dev-9.1
 $ sudo -u postgres psql -d template1
 template1=# CREATE USER gitlab WITH PASSWORD 'gitlab';
@@ -54,8 +67,7 @@ $ exit
 
 h3. Ruby
 
-bc. 
-$ wget http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p194.tar.gz
+bc. $ wget http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p194.tar.gz
 $ tar xfvz ruby-1.9.3-p194.tar.gz
 $ cd ruby-1.9.3-p194
 $ ./configure
@@ -64,8 +76,7 @@ $ sudo make install
 
 h3. Gitolite
 
-bc.. 
-# Create user for "git"
+bc.. # Create user for "git"
 $ sudo adduser \
   --system \
   --shell /bin/sh \
@@ -107,53 +118,45 @@ $ sudo rm -rf /tmp/gitolite-admin
 
 h3. Install Prerequisites
 
-bc. 
-sudo gem install charlock_holmes --version '0.6.8'
+bc. sudo gem install charlock_holmes --version '0.6.8'
 sudo pip install pygments
 sudo gem install bundler
 
 h3. Clone GitLab Source
 
-bc. 
-cd /home/gitlab
+bc. cd /home/gitlab
 sudo -H -u gitlab git clone -b stable https://github.com/gitlabhq/gitlabhq.git gitlab
 cd gitlab
 sudo -u gitlab cp config/gitlab.yml.example config/gitlab.yml
 
 h3. Database auswählen - PostgreSQL
 
-bc. 
-sudo -u gitlab cp config/database.yml.postgresql config/database.yml
+bc. sudo -u gitlab cp config/database.yml.postgresql config/database.yml
 sudo -u gitlab jmacs config/database.yml
 # set username and password 
 
 h3. Install Gems
 
-bc. 
-sudo -u gitlab -H bundle install --without development test sqlite mysql --deployment
+bc. sudo -u gitlab -H bundle install --without development test sqlite mysql --deployment
 
 h3. Datenbank
 
-bc. 
-sudo -u gitlab bundle exec rake gitlab:app:setup RAILS_ENV=production
+bc. sudo -u gitlab bundle exec rake gitlab:app:setup RAILS_ENV=production
 
 h3. GitLab Hooks
 
-bc. 
-sudo cp ./lib/hooks/post-receive /home/git/.gitolite/hooks/common/post-receive
+bc. sudo cp ./lib/hooks/post-receive /home/git/.gitolite/hooks/common/post-receive
 sudo chown git:git /home/git/.gitolite/hooks/common/post-receive
 
 h3. Anwendungsstatus prüfen
 
-bc. 
-sudo -u gitlab bundle exec rake gitlab:app:status RAILS_ENV=production
+bc. sudo -u gitlab bundle exec rake gitlab:app:status RAILS_ENV=production
 
 Hoffentlich bleibt alles grün/YES.
 
 h3. Web Server starten
 
-bc. 
-sudo -u gitlab bundle exec rails s -e production
+bc. sudo -u gitlab bundle exec rails s -e production
 
 Browser: http://192.168.56.84:3000
 
@@ -166,32 +169,30 @@ h2. Probleme
 
 h3. YAML
 
-bc. 
-$ gem list
+bc. $ gem list
 /usr/local/lib/ruby/1.9.1/yaml.rb:56:in `<top (required)>':
 It seems your ruby installation is missing psych (for YAML output).
 To eliminate this warning, please install libyaml and reinstall your ruby.
 
 Lösungsversuch mit libyaml-dev:
 
-* sudo apt-get install libyaml-dev
-* cd ~/ruby*
-* ./configure
-* make
-* sudo make install
-* gem list
+* @sudo apt-get install libyaml-dev@
+* @cd ~/ruby*@
+* @./configure@
+* @make@
+* @sudo make install@
+* @gem list@
 
 Die Fehlermeldung bzgl. YAML erscheint nicht mehr.
 
-* cd /home/gitlab/gitlab
-* sudo -u gitlab bundle exec rails s -e production
+* @cd /home/gitlab/gitlab@
+* @sudo -u gitlab bundle exec rails s -e production@
 
 ... funktioniert.
 
 h3. Ruby-1.9.3-p327
 
-bc. 
-$ wget http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p327.tar.gz
+bc. $ wget http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p327.tar.gz
 $ tar xfvz ruby-1.9.3-p327.tar.gz
 $ cd ruby-1.9.3-p327
 $ ./configure
