@@ -30,3 +30,6 @@ h3. Rebase statt Merge
 
 bc. $ git config --global branch.autosetuprebase always
 
+h2. Links
+
+* http://randyfay.com/content/avoiding-git-disasters-gory-story
