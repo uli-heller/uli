@@ -1,9 +1,16 @@
 ---
 layout: post
+author: Uli Heller
+published: true
 title: "Octopress"
 date: 2012-11-10 19:49
 comments: true
 categories: 
+- Linux
+- Ubuntu
+- Precise
+- Ruby
+- Blog
 ---
 
 h1. Octopress
