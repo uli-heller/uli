@@ -38,16 +38,14 @@ h3. Basispakete
 
 h4. Git
 
-bc. 
-$ sudo apt-get install -y git
+bc. $ sudo apt-get install -y git
 $ sudo apt-get clean
 
 Für GIT wird die Version 1.8.0-0dp3~precise01 vom DPREPO angezogen.
 
 h4. Ruby mittels RVM
 
-bc. 
-curl -L https://get.rvm.io | bash -s stable --ruby
+bc. curl -L https://get.rvm.io | bash -s stable --ruby
 . ./.rvm/scripts/rvm
 rvm install 1.9.3 # Zeigt eine Fehlermeldung, weil 1.9.3 bereits installiert ist
 rvm use 1.9.3
@@ -58,8 +56,7 @@ h3. Octopress
 
 h4. Erstinstallation
 
-bc. 
-git clone git://github.com/imathis/octopress.git octopress
+bc. git clone git://github.com/imathis/octopress.git octopress
 cd octopress
 gem install bundler
 bundle install
@@ -77,8 +74,7 @@ h2. Anpassungen
 
 h3. Umleitung auf meinen Octopress-Fork
 
-bc. 
-git remote add uli-github git@github.com:uli-heller/octopress.git
+bc. git remote add uli-github git@github.com:uli-heller/octopress.git
 
 ... nun können Änderungen mit @git push -u uli-github master@ dorthin gesichert werden.
 
@@ -86,8 +82,7 @@ h3. Textile statt Markdown
 
 Rakefile
 
-bc. 
-uli@ubuntu1204:~/octopress$ git diff
+bc. uli@ubuntu1204:~/octopress$ git diff
 diff --git a/Rakefile b/Rakefile
 index 3addaaf..d1a9a66 100644
 --- a/Rakefile
@@ -104,8 +99,7 @@ index 3addaaf..d1a9a66 100644
 
 h3. Autor und Titel
 
-bc.. 
-uli@ubuntu1204:~/octopress$ git diff _config.yml
+bc.. uli@ubuntu1204:~/octopress$ git diff _config.yml
 diff --git a/_config.yml b/_config.yml
 index fb29684..741d469 100644
 --- a/_config.yml
@@ -127,13 +121,11 @@ index fb29684..741d469 100644
 
 h2. Ein erster Blog-Eintrag
 
-bc. 
-uli@ubuntu1204:~/octopress$ rake new_post["Octopress"]
+bc. uli@ubuntu1204:~/octopress$ rake new_post["Octopress"]
 mkdir -p source/_posts
 Creating new post: source/_posts/2012-11-10-octopress.textile
 
-bc. 
-rake generate
+bc. rake generate
 rake preview
 
 h2. Probleme
@@ -144,8 +136,7 @@ Funktioniert nicht, wir verwenden stattdessen RVM!
 
 h4. RBENV
 
-bc. 
-cd
+bc. cd
 git clone git://github.com/sstephenson/rbenv.git .rbenv
 echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
 echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
@@ -154,16 +145,14 @@ source ~/.bash_profile
 
 h4. RUBY
 
-bc. 
-rbenv install 1.9.3-p0
+bc. rbenv install 1.9.3-p0
 rbenv rehash
 
 Danach sollte dann @ruby --version@ irgendwas mit 1.9.3 anzeigen, funktioniert aber nicht!
 
 h3. YAML und zlib
 
-bc. 
-uli@ubuntu1204:~/octopress$ gem install bundler
+bc. uli@ubuntu1204:~/octopress$ gem install bundler
 /home/uli/.rvm/rubies/ruby-1.9.3-p327/lib/ruby/1.9.1/yaml.rb:56:in `<top (required)>':
 It seems your ruby installation is missing psych (for YAML output).
 To eliminate this warning, please install libyaml and reinstall your ruby.
@@ -183,8 +172,7 @@ Lösungsversuch mit libyaml-dev und libz-dev:
 
 h3. OpenSSL
 
-bc. 
-uli@ubuntu1204:~/octopress$ rake generate
+bc. uli@ubuntu1204:~/octopress$ rake generate
 ## Generating Site with Jekyll
 directory source/stylesheets/ 
    create source/stylesheets/screen.css 
