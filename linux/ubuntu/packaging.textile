@@ -17,6 +17,10 @@ cd ../gnuplot-4.6.1
 jmacs debian/changelog            # ... Änderungshinweise, Versionsbereichnung
 dpkg-buildpackage                 # ... neue Version erstellen
 
+h3. Kompilierung überspringen
+
+bc. fakeroot debian/rules binary
+
 h2. Pakete signieren
 
 bc. 
