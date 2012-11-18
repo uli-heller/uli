@@ -132,9 +132,102 @@ h2. Probleme
 
 h3. Offene Probleme
 
-Zur Zeit sind keine offenen Probleme bekannt.
+* Wie markiere ich in Blog-Einträgen am besten nachträgliche Änderungen?
 
 h3. Erledigte Probleme
+
+h4. Farben sind recht duster
+
+bc.. uli@uli-hp:~/git/octopress$ diff -u sass/custom/_colors.scss~ sass/custom/_colors.scss
+--- sass/custom/_colors.scss~	2012-11-10 19:45:17.000000000 +0100
++++ sass/custom/_colors.scss	2012-11-18 11:21:14.913856809 +0100
+@@ -41,3 +41,61 @@
+ //$pre-bg: $base03;
+ //$pre-border: darken($base02, 5);
+ //$pre-color: $base1;
++
++// 2012-11-18
++// http://aijazansari.com/2012/08/27/how-to-customize-octopress-theme/
++// ////////////////////////////////////////
++// change the background colors
++//
++html {
++  background: #fff !important;
++}
++body {
++  > div {
++    background: #fff !important;
++    > div {
++      background: #fff !important;
++      }
++  }
++}
++$main-bg: #ffffff !default;
++$page-bg: #ffffff !default;
++
++// ////////////////////////////////////////
++// change the header colors
++//
++$header-bg: #fff;
++$title-color: #000000 !default;
++$text-color: #333 !default;
++$text-color-light: #777 !default;
++$subtitle-color: darken($header-bg, 58);
++
++// ////////////////////////////////////////
++// change the nav bar
++//
++$nav-bg: #fff;
++$nav-bg-front: #fff;
++$nav-bg-back: #fff;
++$nav-color: darken($nav-bg, 78) !default;
++$nav-color-hover: darken($nav-color, 25) !default;
++$nav-border: darken($nav-bg, 50) !default;
++$nav-border-top: darken($nav-bg, 33) !default;
++$nav-border-bottom: darken($nav-bg, 33) !default;
++$nav-border-left: darken($nav-bg, 11) !default;
++$nav-border-right: lighten($nav-bg, 7) !default;
++
++
++// ////////////////////////////////////////
++// change the footer
++//
++$footer-color: #888 !default;
++$footer-bg: #fff !default;
++$footer-bg-front: #fff !default;
++$footer-bg-back: #fff !default;
++$footer-color: darken($footer-bg, 38) !default;
++$footer-color-hover: darken($footer-color, 10) !default;
++$footer-border-top: lighten($footer-bg, 15) !default;
++$footer-border-bottom: darken($footer-bg, 15) !default;
++$footer-link-color: darken($footer-bg, 38) !default;
++$footer-link-color-hover: darken($footer-color, 25) !default;
++$page-border-bottom: darken($footer-bg, 5) !default;
+
+h4. Listen sind nicht eingerückt
+
+Die Darstellung von Listen ist unschön. Der Fehler betrifft Listen wie diese:
+
+* Erster Listeneintrag
+* Zweiter Listeneintrag
+
+Die Listeneinträge werden zu weit links angeziegt, so dass die "Punkte" links außerhalb des Textbereichs erscheinen.
+
+Korrektur: Editiere sass/custom/_layout.css wie folgt:
+
+bc.. diff -u sass/custom/_layout.scss~  sass/custom/_layout.scss
+--- sass/custom/_layout.scss~	2012-11-10 19:45:17.000000000 +0100
++++ sass/custom/_layout.scss	2012-11-18 11:05:43.661813157 +0100
+@@ -6,7 +6,7 @@
+ //$header-padding-bottom: 1.5em;
+ 
+ //$max-width: 1350px;
+-//$indented-lists: true;
++$indented-lists: true;
+ 
+ // Padding used for layout margins
+ //$pad-min: 18px;
+
 
 h4. Ruby mittels RBENV
 
