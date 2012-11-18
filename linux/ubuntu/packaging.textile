@@ -4,8 +4,7 @@ h2. Eigene Pakete erstellen
 
 Für diesen Abschnitt gehen wir davon aus, dass unter _/build_ eine Plattenbereich mit genügend freiem Speicher zur Verfügung steht. Der Rest zeigt das Vorgehen am Beispiel von GnuPlot.
 
-bc. 
-cd /build
+bc. cd /build
 mkdir gnuplot
 cd gnuplot
 sudo apt-get build-dep gnuplot    # ... alles, was zum Erstellen gebraucht wird
@@ -14,7 +13,8 @@ apt-get source gnuplot            # ... installiert gnuplot-4.4.3
 cd gnuplot-4.4.3
 uupdate -u ..gnuplot-4.6.1.tar.gz # ... neue Version vorbereiten
 cd ../gnuplot-4.6.1
-jmacs debian/changelog            # ... Änderungshinweise, Versionsbereichnung
+debchange --increment             # ... Änderungshinweise, Versionsbereichnung
+# ... oder auch --append
 dpkg-buildpackage                 # ... neue Version erstellen
 
 h3. Kompilierung überspringen
@@ -23,6 +23,9 @@ bc. fakeroot debian/rules binary
 
 h2. Pakete signieren
 
-bc. 
-dpkg-sig -s changes -k uli.heller@daemons-point.com *changes
+bc. dpkg-sig -s changes -k uli.heller@daemons-point.com *changes
 
+Bei der Paket-Erstellung geschieht dies:
+
+bc. signfile paketname.dsc
+signfile paketname.changes
