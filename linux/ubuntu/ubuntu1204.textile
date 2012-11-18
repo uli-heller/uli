@@ -1,0 +1,94 @@
+h1. Installation von Ubuntu-12.04.1
+
+Kurzbeschreibung zur Installation von Ubuntu-12.04.1 Desktop 64-bit. Die Installation erfolgt auf eine SSD. Zur Optimierung der Boot-Zeiten installiere ich diesmal *ohne* Verwendung von LVM.
+
+h2. Partitionierung ohne LVM
+
+* 500 MB /boot, ext4 ... sdc1
+* Erweitete Partition ... sdc2
+* 16 GB swap ... sdc5
+* 30 GB /root, ext4 ... sdc6
+* 95 GB /home, ext4 ... sdc7
+
+h2. Namensauflösung korrigieren
+
+Mit der Standardeinstellung gibt's bei mir immer wieder Probleme mit der Namensauflösung: Sie dauert sehr lange und scheitert relativ häufig.
+
+h3. /etc/resolv.conf
+
+bc. nameserver 8.8.8.8 
+
+oder auch:
+
+bc. nameserver 192.168.0.1
+
+h3. /etc/NetworkManager/NetworkManager.conf
+
+bc. #dns=dnsmasq
+
+... damit wird in /etc/resolv.conf dann immer automatisch die 192.168.0.1 eingetragen.
+
+h2. Aktualisierungen vom Hauptserver
+
+Meiner Erfahrung nach sollte man die Aktualisierungsquellen schnellstmöglich umstellen vom deutschen Server auf den Hauptserver von Canonical. Mit den deutschen Quellen stürzt die Aktualisierungsverwaltung gelegentlich ab und die Aktualisierungen treffen etwas später bei uns ein.
+
+bc. sudo sed -i s,//de.archive,//archive, /etc/apt/sources.list
+
+h2. Apt-Cacher-Ng installieren und konfigurieren
+
+Erst muß das Programm eingespielt werden mit:
+
+bc. sudo apt-get install apt-cacher-ng
+
+Dann konfiguriere ich den Zwischenspeicher für die runtergeladenen Pakete in /etc/apt-cacher-ng/acng.conf:
+
+bc. CacheDir: /data/apt-cacher-ng
+
+Das Verzeichnis muß dann auch noch angelegt werden und auf einer Partition mit genügend freiem Speicherplatz liegen:
+
+bc. sudo mkdir /data/apt-cacher-ng
+sudo chown -R apt-cacher-ng.apt-cacher-ng /data/apt-cacher-ng
+
+Momentan habe ich unter diesem Verzeichnig schon über 6GB an Paketen zwischengespeichert. Wenn alles eingerichtet ist, dann kann der Hintergrundprozess gestartet werden:
+
+bc. sudo service apt-cacher-ng restart
+
+Zuletzt muß nur noch die Paketverwaltung so umkonfiguriert werden, dass die den Zwischenspeicher nutzt. Hierzu wird die Datei /etc/apt/apt.config.d/01proxy angelegt mit diesem Inhalt:
+
+bc. Acquire::http::Proxy "http://127.0.0.1:3142";
+
+h2. Zusatzprodukte
+
+h3. Standardquellen
+
+bc. sudo apt-get install joe
+# sudo apt-get install apt-cacher-ng
+sudo apt-get install emacs
+sudo apt-get install openssh-server
+sudo apt-get install openjdk-7-jdk
+sudo apt-get install nvidia-current
+
+h3. Google Chrome
+
+bc. wget -c https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb
+dpkg-deb -W google-chrome-beta_current_amd64.deb
+  google-chrome-beta	24.0.1312.14-r167497
+mv  google-chrome-beta_current_amd64.deb  google-chrome-beta_24.0.1312.14_amd64.deb
+sudo dpkg -i google-chrome-beta_24.0.1312.14_amd64.deb
+
+h2. DP-Paketquelle und DP-Pakete
+
+bc. sudo dpkg -i .../12.04.64/debs/dprepo_0.1-04dp~precise1_all.deb
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install git git-svn gitk
+sudo apt-get install subversion
+sudo apt-get install cinnamon
+
+h2. Sonstige Programme
+
+Diverse Programme werden manuall eingespielt unter /opt:
+
+* eclipse-jee-juno-SR1-linux-gtk-x86_64.tar.gz
+* eclipse-jee-kepler-M3-linux-gtk-x86_64.tar.gz
+* jdk-7u9-linux-x64.tar.gz
