@@ -53,6 +53,28 @@ h3. 10.04, 32bit
 
 bc. sudo lxc-create -t ubuntu -n ubuntu1204-32 -- -r lucid -a i386
 
+h2. Arbeit mit Containern
+
+* Anmelden
+** Benutzer: "ubuntu"
+** Kennwort: "ubuntu"
+* Netzwerk
+** IP-Adressen: Aus dem Adressbereich 10.0.3/24
+** NAT: Funktioniert - @ping google.com@
+** SSH vom Host in den Container: Funktioniert - @ssh ubuntu@10.0.3.250@
+
+h2. Anpassung der Container
+
+h3. Verwenden des Apt-Cache-Ng vom Host-System
+
+Erstellen von /etc/apt/apt.conf.d/01proxy:
+
+bc. Acquire::http::Proxy "http://10.0.3.1:3142";
+
+h3. Installation von JOE/JMACS
+
+bc. sudo apt-get install joe
+
 h2. Probleme
 
 h3. Offene Punkte
@@ -61,9 +83,9 @@ h4. Wie übernimmt man einen Container auf ein anderes System?
 
 h4. Wie sorgt man dafür, dass ein Container nur über ein Host-Only-Netzwerk erreichbar ist?
 
-h4. Verwendung des Apt-Cacher-Ng durch einen Container
-
 h3. Erledigte Punkte
+
+h4. Verwendung des Apt-Cacher-Ng durch einen Container
 
 h2. Links
 
