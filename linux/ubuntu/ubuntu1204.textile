@@ -68,6 +68,7 @@ sudo apt-get install openssh-server
 sudo apt-get install openjdk-7-jdk
 sudo apt-get install nvidia-current
 sudo apt-get install btrfs-tools
+sudo apt-get install gimp
 
 h3. Google Chrome
 
@@ -93,3 +94,15 @@ Diverse Programme werden manuall eingespielt unter /opt:
 * eclipse-jee-juno-SR1-linux-gtk-x86_64.tar.gz
 * eclipse-jee-kepler-M3-linux-gtk-x86_64.tar.gz
 * jdk-7u9-linux-x64.tar.gz
+
+h2. Probleme
+
+h3. Tastatur-Einstellung fehlt bei Cinnamon-Einstellungen
+
+h4. Einstellungen auf Uli's Desktop
+
+!images/cinnamon-desktop.png!
+
+h4. Einstellungen auf Uli's Notebook
+
+!images/cinnamon-notebook.png!
