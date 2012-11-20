@@ -33,6 +33,8 @@ h3. Vorbereitungen
 ** @sudo apt-get install gcc build-essential@
 * Libs installieren:
 ** @sudo apt-get install libyaml-dev libz-dev libssl-dev@
+* Curl installieren
+** @sudo apt-get install curl@
 
 h3. Basispakete
 
@@ -72,7 +74,11 @@ rake install
 
 h2. Anpassungen
 
+Viele der hier vorgestellten Anpassungen sind bei Verwendung von git@github.com:uli-heller/octopress.git bereits voreingestellt.
+
 h3. Umleitung auf meinen Octopress-Fork
+
+Falls eine Erstinstallation via git://github.com/imathis/octopress.git erfolgt ist, so kann mittels nachfolgender Änderung mein Fork eingebunden werden:
 
 bc. git remote add uli-github git@github.com:uli-heller/octopress.git
 
@@ -119,6 +125,18 @@ index fb29684..741d469 100644
  simple_search: http://google.com/search
  description:
 
+h3. Darstellung
+
+bc. cd octopress
+rake install['uli']
+
+... aktiviert mein "Thema".
+
+bc. cd octopress
+rake install
+
+... aktiviert das Standard-Thema.
+
 h2. Ein erster Blog-Eintrag
 
 bc. uli@ubuntu1204:~/octopress$ rake new_post["Octopress"]
@@ -137,6 +155,8 @@ h3. Offene Probleme
 h3. Erledigte Probleme
 
 h4. Farben sind recht duster
+
+Die Beschreibung ist obsolet! Verwende besser: @rake install['uli']@!
 
 bc.. uli@uli-hp:~/git/octopress$ diff -u sass/custom/_colors.scss~ sass/custom/_colors.scss
 --- sass/custom/_colors.scss~	2012-11-10 19:45:17.000000000 +0100
@@ -205,6 +225,8 @@ bc.. uli@uli-hp:~/git/octopress$ diff -u sass/custom/_colors.scss~ sass/custom/_
 +$page-border-bottom: darken($footer-bg, 5) !default;
 
 h4. Listen sind nicht eingerückt
+
+Die Beschreibung ist obsolet! Verwende besser: @rake install['uli']@!
 
 Die Darstellung von Listen ist unschön. Der Fehler betrifft Listen wie diese:
 
