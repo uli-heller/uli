@@ -6,6 +6,13 @@ bc. sudo apt-get install lxc
 
 h2. Container-Partition /lxc
 
+h3. Partition anlegen
+
+bc. sudo lvcreate -n lxclv -L10G datavg
+sudo mkfs.btrfs /dev/datavg/lxclv
+
+h3. Partition einbinden
+
 bc. sudo mount /lxc
 sudo rmdir /var/lib/lxc
 sudo ln -s /lxc/lib /var/lib/lxc
@@ -75,17 +82,33 @@ h3. Installation von JOE/JMACS
 
 bc. sudo apt-get install joe
 
+h2. Sichern und Rückspielen von Containern
+
+h3. Sichern
+
+bc. cd /lxc
+sudo tar -cvjpf /backups/lxc/20121119.tar.bz2 .
+
+h3. Rückspielen
+
+bc. cd /lxc
+sudo tar -xvjpf /backups/lxc/20121119.tar.bz2
+
 h2. Probleme
 
 h3. Offene Punkte
-
-h4. Wie übernimmt man einen Container auf ein anderes System?
 
 h4. Wie sorgt man dafür, dass ein Container nur über ein Host-Only-Netzwerk erreichbar ist?
 
 h3. Erledigte Punkte
 
 h4. Verwendung des Apt-Cacher-Ng durch einen Container
+
+... geht wie üblich durch /etc/apt/apt.conf.d/01proxy innerhalb des Containers
+
+h4. Wie übernimmt man einen Container auf ein anderes System?
+
+... durch Sichern und Rückspielen.
 
 h2. Links
 
