@@ -66,6 +66,7 @@ bc. sudo apt-get install joe
 sudo apt-get install emacs
 sudo apt-get install openssh-server
 sudo apt-get install openjdk-7-jdk
+sudo apt-get install ant
 sudo apt-get install nvidia-current
 sudo apt-get install btrfs-tools
 sudo apt-get install gimp
@@ -109,3 +110,15 @@ h4. Einstellungen auf Uli's Desktop
 h4. Einstellungen auf Uli's Notebook
 
 !images/cinnamon-notebook.png!
+
+h4. Korrektur
+
+Mit diesem Ablauf hat sich Uli's Notebook wieder "gefangen":
+
+bc. sudo apt-get purge cinnamon
+sudo apt-get purge muffin-common
+# Abmelden und in Unity neu anmelden
+rm -rf .local/share/cinnamon
+sudo apt-get update
+sudo apt-get install cinnamon
+# Abmelden und in Cinnamon neu anmelden
