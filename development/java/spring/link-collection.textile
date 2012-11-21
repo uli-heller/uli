@@ -1,0 +1,3 @@
+h1. Links related to Spring
+
+* http://www.javacodegeeks.com/2012/11/getting-rid-of-null-parameters-with-a-simple-spring-aspect.html
