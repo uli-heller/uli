@@ -146,6 +146,59 @@ Creating new post: source/_posts/2012-11-10-octopress.textile
 bc. rake generate
 rake preview
 
+h2. Veröffentlichung auf GitHub
+
+Ziel: Die Octopress-Seiten sollen auf GitHub unter
+
+* http://uli-heller.github.com/
+
+veröffentlicht werden.
+
+h3. Vorbereitungen auf GitHub
+
+Auf GitHub muß ein spezielles Repository angelegt werden:
+
+* mein GitHub-Benutzer: "uli-heller"
+* neu anzulegendes Repository: "uli-heller.github.com"
+
+In der Liste der eigenen Repositories erscheint dann:
+
+* uli-heller/uli-heller.github.com
+
+Test: Lege in dem Master-Zweig dieses Repositories eine Datei mit Namen
+
+* index.html
+
+an und gib' danach im Browser die URL
+
+* http://uli-heller.github.com
+
+ein. Mit etwas Glück erscheint der Inhalt der "index.html"
+
+h3. Anpassungen im Octopress-Verzeichnis
+
+bc. cd octopress
+rake setup_github_pages
+# Repository url: git@github.com:uli-heller/uli-heller.github.com
+rake generate
+rake deploy
+
+h3. Neue Artikel sichern
+
+Neue Artikel werden mit diesem Befehl auf GitHub gesichert:
+
+bc. cd octopress
+git commit -m "..."
+git push origin source
+
+h3. Neue Veröffentlichungen
+
+Immer dann, wenn neue Artikel veröffentlicht werden sollen, muß man so vorgehen:
+
+bc. cd octopress
+rake generate
+rake deploy
+
 h2. Probleme
 
 h3. Offene Probleme
