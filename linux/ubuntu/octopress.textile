@@ -58,33 +58,15 @@ h3. Octopress
 
 h4. Erstinstallation
 
+h5. Octopress und Pakete
+
 bc. git clone git://github.com/imathis/octopress.git octopress
 cd octopress
 gem install bundler
 bundle install
 rake install
 
-h4. Folgeinstallation
-
-bc. git clone git@github.com:uli-heller/octopress.git octopress
-cd octopress
-gem install bundler
-bundle install
-rake install
-
-h2. Anpassungen
-
-Viele der hier vorgestellten Anpassungen sind bei Verwendung von git@github.com:uli-heller/octopress.git bereits voreingestellt.
-
-h3. Umleitung auf meinen Octopress-Fork
-
-Falls eine Erstinstallation via git://github.com/imathis/octopress.git erfolgt ist, so kann mittels nachfolgender Änderung mein Fork eingebunden werden:
-
-bc. git remote add uli-github git@github.com:uli-heller/octopress.git
-
-... nun können Änderungen mit @git push -u uli-github master@ dorthin gesichert werden.
-
-h3. Textile statt Markdown
+h5. Textile statt Markdown
 
 Rakefile
 
@@ -103,7 +85,7 @@ index 3addaaf..d1a9a66 100644
 +new_page_ext    = "textile"   # default new page file extension when using the 
  server_port     = "4000"      # port for preview server eg. localhost:4000
 
-h3. Autor und Titel
+h5. Autor und Titel
 
 bc.. uli@ubuntu1204:~/octopress$ git diff _config.yml
 diff --git a/_config.yml b/_config.yml
@@ -124,6 +106,19 @@ index fb29684..741d469 100644
 +author: Uli Heller
  simple_search: http://google.com/search
  description:
+
+h4. Folgeinstallation
+
+bc. git clone  git@github.com:uli-heller/uli-heller.github.com octopress
+cd octopress
+git checkout source
+gem install bundler
+bundle install
+rake install
+
+h2. Anpassungen
+
+Viele der hier vorgestellten Anpassungen sind bei Verwendung von git@github.com:uli-heller.github.com bereits voreingestellt.
 
 h3. Darstellung
 
