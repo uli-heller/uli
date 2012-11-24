@@ -146,6 +146,11 @@ rake setup_github_pages
 rake generate
 rake deploy
 
+h5. Quellverzeichnis sichern
+
+bc. git add source
+git commit -m "..."
+
 h5. Neue Artikel sichern
 
 Neue Artikel werden mit diesem Befehl auf GitHub gesichert:
@@ -169,7 +174,7 @@ cd octopress
 git checkout source
 gem install bundler
 bundle install
-rake install
+rake install['uli']
 
 h2. Anpassungen
 
@@ -199,6 +204,7 @@ h2. Probleme
 h3. Offene Probleme
 
 * Wie markiere ich in Blog-Einträgen am besten nachträgliche Änderungen?
+* Wie verwende ich include_code in Verbindung mit Textile? https://github.com/imathis/octopress/issues/500
 
 h3. Erledigte Probleme
 
