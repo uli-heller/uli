@@ -113,3 +113,4 @@ h2. Links
 
 * http://randyfay.com/content/avoiding-git-disasters-gory-story
 * http://www.tfnico.com/presentations/git-and-subversion
+* http://mislav.uniqpath.com/2010/07/git-tips/
