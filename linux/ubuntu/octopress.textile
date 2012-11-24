@@ -175,6 +175,8 @@ git checkout source
 gem install bundler
 bundle install
 rake install['uli']
+git remote add octopress git://github.com/imathis/octopress.git
+git fetch octopress
 
 h2. Anpassungen
 
@@ -204,7 +206,9 @@ h2. Probleme
 h3. Offene Probleme
 
 * Wie markiere ich in Blog-Einträgen am besten nachträgliche Änderungen?
-* Wie verwende ich include_code in Verbindung mit Textile? https://github.com/imathis/octopress/issues/500
+* Wie verwende ich include_code in Verbindung mit Textile?
+** https://github.com/imathis/octopress/issues/500
+** @git branch -a --contains ca47041@
 
 h3. Erledigte Probleme
 
