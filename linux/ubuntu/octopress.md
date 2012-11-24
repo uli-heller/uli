@@ -2,7 +2,7 @@
 layout: post
 author: Uli Heller
 published: true
-title: "Octopress"
+title: "Octopress-Installation"
 date: 2012-11-24 10:49
 comments: true
 categories: 
@@ -13,8 +13,8 @@ categories:
 - Blog
 ---
 
-Octopress
-=========
+Meine erste Octopress-Installation
+==================================
 
 Installation
 ------------
@@ -189,6 +189,8 @@ bundle install
 rake install['uli']
 git remote add octopress git://github.com/imathis/octopress.git
 git fetch octopress
+rake setup_github_pages
+# Repository url: git@github.com:uli-heller/uli-heller.github.com
 {% endcodeblock %}
 
 Anpassungen
