@@ -195,6 +195,7 @@ git init _deploy
 cd _deploy
 git remote add -t master -f origin git@github.com:uli-heller/uli-heller.github.com
 git checkout master
+cd ..
 {% endcodeblock %}
 
 Anpassungen
