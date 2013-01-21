@@ -32,6 +32,37 @@ bc. $ git config --global branch.autosetuprebase always
 
 h2. Anwendungsfälle
 
+h3. Arbeit an mehreren Baustellen
+
+Gelegentlich muß man die Routinearbeit unterbrechen und ein Kundenproblem korrigieren.
+
+h4. Git Stash
+
+bc. # Zwischenparken der aktuellen Änderungen
+$ git stash
+...
+Arbeit am Kundenproblem - "git checkout {release-branch}"
+Abschließen mit "git commit"
+Rückwechseln auf den ursprl. Zweig - "git checkout {original-branch}"
+...
+# Restaurieren der Änderungen
+$ git stash pop
+
+h4. Alternativer Ablauf
+
+Idee: http://www.greenmoonsoftware.com/2013/01/a-different-git-stash-workflow/
+
+bc. # Zwischenparken der aktuellen Änderungen
+$ git add .
+$ git commit -m "Zwischenstand"
+...
+Arbeit am Kundenproblem - "git checkout {release-branch}"
+Abschließen mit "git commit"
+Rückwechseln auf den ursprl. Zweig - "git checkout {original-branch}"
+...
+# Restaurieren der Änderungen
+$ git reset HEAD^
+
 h3. Programmablage
 
 Es soll ein Git-Repository eingerichtet werden mit folgenden Bestandteilen:
@@ -108,6 +139,38 @@ Wenn später mal kontrolliert werden soll, wie die Historie bestimmter Programmd
 bc. $ git log --all software/uli-1.0.war
   # oder auch
 $ gitk --all  software/uli-1.0.war
+
+h2. GitHub
+
+h3. Neues Repository anlegen
+
+bc. touch README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin git@github.com:uli-heller/uliwsgen.git
+git push -u origin master
+
+h3. Bestehendes Repository veröffentlichen
+
+bc. git remote add origin git@github.com:uli-heller/uliwsgen.git
+git push -u origin master
+
+h3. Zweig anlegen
+
+h3. Zweig löschen
+
+bc. git branch -d {branchName}
+git push origin --delete {branchName}
+
+h3. Zweig für Jar-Dateien
+
+bc. git checkout master
+git checkout --orphan jars
+git rm -rf .
+git add README.txt
+git commit -m "Created branch: jars"
+git push --set-upstream origin jars
 
 h2. Links
 
