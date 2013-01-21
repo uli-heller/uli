@@ -29,3 +29,28 @@ Bei der Paket-Erstellung geschieht dies:
 
 bc. signfile paketname.dsc
 signfile paketname.changes
+
+h2. Quilt
+
+h3. Grobablauf
+
+bc. quilt push -f
+# edit...
+quilt refresh
+quilt pop -a
+dpkg-buildpackage
+
+h3. Erster Patch
+
+bc. QUILT_PATCHES=debian/patches
+export QUILT_PATCHES
+quilt push -f
+...
+
+h3. Listing files
+
+bc. quilt files
+
+h3. Adding files
+
+bc. quilt add {file}
